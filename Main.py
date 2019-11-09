@@ -39,7 +39,6 @@ class Game:
         self.walls = pygame.sprite.Group()
         self.solid = pygame.sprite.Group()
         self.npc = pygame.sprite.Group()
-        self.player = Player(self, 10, 10)
         
         for row, tiles in enumerate(self.map_data):
 
@@ -52,6 +51,10 @@ class Game:
                 if tile == '3':
 
                     NPC(self, col, row, NPC_img)
+
+                if tile == 'P':
+
+                    self.player = Player(self, col, row)
 
 
     def run(self):
@@ -104,22 +107,6 @@ class Game:
                 if event.key == pygame.K_ESCAPE:
                     
                     self.quit()
-
-                if event.key == pygame.K_a or event.key == pygame.K_LEFT:
-                    
-                    self.player.move(dx=-1)
-
-                if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
-                    
-                    self.player.move(dx=1)
-
-                if event.key == pygame.K_s or event.key == pygame.K_DOWN:
-                    
-                    self.player.move(dy=1)
-
-                if event.key == pygame.K_w or event.key == pygame.K_UP:
-
-                    self.player.move(dy=-1)
 
     def show_start_screen(self):
 
