@@ -28,11 +28,17 @@
     <Compile Include="Sprites.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Tilemap.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="images\Chars\NPC\npc.gif" />
     <Content Include="images\Wall\wall.png" />
-    <Content Include="map.txt">
+    <Content Include="Maps\map.txt">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Maps\World_Map.txt">
       <SubType>Code</SubType>
     </Content>
   </ItemGroup>
@@ -43,6 +49,7 @@
     <Folder Include="images\Chars\Player\" />
     <Folder Include="images\Chars\NPC\" />
     <Folder Include="images\Wall\" />
+    <Folder Include="Maps\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
