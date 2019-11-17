@@ -6,11 +6,6 @@ from Settings import *
 from Sprites import *
 from Tilemap import *
 
-walls_img_dir = path.join(path.dirname(__file__), "images\\Wall")
-npc_img_dir = path.join(path.dirname(__file__), "images\\Chars\\NPC")
-
-wall_img = pygame.image.load(path.join(walls_img_dir, "wall.png"))
-NPC_img = pygame.image.load(path.join(npc_img_dir, "npc.gif"))
 
 class Game:
 
@@ -27,6 +22,15 @@ class Game:
 
         game_folder = path.dirname(__file__)
 
+        walls_img_dir = path.join(game_folder, "images\\Wall")
+        npc_img_dir = path.join(game_folder, "images\\Chars\\NPC")
+        player_img_dir = path.join(game_folder, "images\\Player")
+
+        self.wall_img = pygame.image.load(path.join(walls_img_dir, WALL_IMG)).convert_alpha()
+        self.NPC_img = pygame.image.load(path.join(npc_img_dir, NPC_IMG)).convert_alpha()
+        #self.player_img = pygame.image.load(path.join(player_img_dir, PLAYER_IMG)).convert_alpha()
+
+
         self.map = Map(path.join(game_folder, 'Maps\\World_Map.txt'))
 
     def new(self):
@@ -42,11 +46,11 @@ class Game:
 
                 if tile == '1':
 
-                    Wall(self, col, row, wall_img)
+                    Wall(self, col, row)
 
                 if tile == '3':
 
-                    NPC(self, col, row, NPC_img)
+                    NPC(self, col, row)
 
                 if tile == 'P':
 
@@ -68,7 +72,7 @@ class Game:
     def quit(self):
 
             pygame.quit()
-            sys.quit()
+            sys.exit()
 
     def update(self):
 

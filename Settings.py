@@ -15,8 +15,16 @@ FPS = 60
 TITLE = "Adventure Game"
 BGCOLOR = DARKGREY
 
-TILESIZE = 32
+# screen settings
+TILESIZE = 64
 GRIDWIDTH = WIDTH / TILESIZE
 GRIDHEIGHT = HEIGHT / TILESIZE
 
+# world settings
+
+WALL_IMG = "wall.png"
+NPC_IMG = "npc.gif"
+
+# player settings
 PLAYER_SPEED = 250
+PLAYER_IMG = "s_walk_0.png"
