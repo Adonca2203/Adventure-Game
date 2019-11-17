@@ -1,5 +1,6 @@
 import pygame
 from Settings import *
+from os import path
 
 vec = pygame.math.Vector2
 
@@ -9,11 +10,64 @@ class Player(pygame.sprite.Sprite):
 
         self.groups = game.all_sprites
 
+        game_folder = path.dirname(__file__)
+
+        player_img_dir = path.join(game_folder, "images\\Chars\\Player")
+
+        self.simgs = []
+        self.simgs.append(pygame.image.load(path.join(player_img_dir, 's_walk_0.png')).convert_alpha())
+        self.simgs.append(pygame.image.load(path.join(player_img_dir, 's_walk_1.png')).convert_alpha())
+        self.simgs.append(pygame.image.load(path.join(player_img_dir, 's_walk_2.png')).convert_alpha())
+        self.simgs.append(pygame.image.load(path.join(player_img_dir, 's_walk_3.png')).convert_alpha())
+        self.simgs.append(pygame.image.load(path.join(player_img_dir, 's_walk_4.png')).convert_alpha())
+        self.simgs.append(pygame.image.load(path.join(player_img_dir, 's_walk_5.png')).convert_alpha())
+        self.simgs.append(pygame.image.load(path.join(player_img_dir, 's_walk_6.png')).convert_alpha())
+        self.simgs.append(pygame.image.load(path.join(player_img_dir, 's_walk_7.png')).convert_alpha())
+        self.simgs.append(pygame.image.load(path.join(player_img_dir, 's_walk_8.png')).convert_alpha())
+        self.simgs.append(pygame.image.load(path.join(player_img_dir, 's_walk_9.png')).convert_alpha())
+        self.simgs.append(pygame.image.load(path.join(player_img_dir, 's_walk_10.png')).convert_alpha())
+        self.simgs.append(pygame.image.load(path.join(player_img_dir, 's_walk_11.png')).convert_alpha())
+        self.simgs.append(pygame.image.load(path.join(player_img_dir, 's_walk_12.png')).convert_alpha())
+        
+        self.eimgs = []
+        self.eimgs.append(pygame.image.load(path.join(player_img_dir, 'e_walk_0.png')).convert_alpha())
+        self.eimgs.append(pygame.image.load(path.join(player_img_dir, 'e_walk_1.png')).convert_alpha())
+        self.eimgs.append(pygame.image.load(path.join(player_img_dir, 'e_walk_2.png')).convert_alpha())
+        self.eimgs.append(pygame.image.load(path.join(player_img_dir, 'e_walk_3.png')).convert_alpha())
+        self.eimgs.append(pygame.image.load(path.join(player_img_dir, 'e_walk_4.png')).convert_alpha())
+        self.eimgs.append(pygame.image.load(path.join(player_img_dir, 'e_walk_5.png')).convert_alpha())
+        self.eimgs.append(pygame.image.load(path.join(player_img_dir, 'e_walk_6.png')).convert_alpha())
+        self.eimgs.append(pygame.image.load(path.join(player_img_dir, 'e_walk_7.png')).convert_alpha())
+        self.eimgs.append(pygame.image.load(path.join(player_img_dir, 'e_walk_8.png')).convert_alpha())
+        self.eimgs.append(pygame.image.load(path.join(player_img_dir, 'e_walk_9.png')).convert_alpha())
+        self.eimgs.append(pygame.image.load(path.join(player_img_dir, 'e_walk_10.png')).convert_alpha())
+        self.eimgs.append(pygame.image.load(path.join(player_img_dir, 'e_walk_11.png')).convert_alpha())
+        self.eimgs.append(pygame.image.load(path.join(player_img_dir, 'e_walk_12.png')).convert_alpha())
+        
+        self.nimgs = []
+        self.nimgs.append(pygame.image.load(path.join(player_img_dir, 'n_walk_0.png')).convert_alpha())
+        self.nimgs.append(pygame.image.load(path.join(player_img_dir, 'n_walk_1.png')).convert_alpha())
+        self.nimgs.append(pygame.image.load(path.join(player_img_dir, 'n_walk_2.png')).convert_alpha())
+        self.nimgs.append(pygame.image.load(path.join(player_img_dir, 'n_walk_3.png')).convert_alpha())
+        self.nimgs.append(pygame.image.load(path.join(player_img_dir, 'n_walk_4.png')).convert_alpha())
+        self.nimgs.append(pygame.image.load(path.join(player_img_dir, 'n_walk_5.png')).convert_alpha())
+        self.nimgs.append(pygame.image.load(path.join(player_img_dir, 'n_walk_6.png')).convert_alpha())
+        self.nimgs.append(pygame.image.load(path.join(player_img_dir, 'n_walk_7.png')).convert_alpha())
+        self.nimgs.append(pygame.image.load(path.join(player_img_dir, 'n_walk_8.png')).convert_alpha())
+        self.nimgs.append(pygame.image.load(path.join(player_img_dir, 'n_walk_9.png')).convert_alpha())
+        self.nimgs.append(pygame.image.load(path.join(player_img_dir, 'n_walk_10.png')).convert_alpha())
+        self.nimgs.append(pygame.image.load(path.join(player_img_dir, 'n_walk_11.png')).convert_alpha())
+        self.nimgs.append(pygame.image.load(path.join(player_img_dir, 'n_walk_12.png')).convert_alpha())
+
+
+        self.index = 0
+
+        self.pimg = self.simgs[self.index]
+
         pygame.sprite.Sprite.__init__(self, self.groups)
 
         self.game = game
-        self.image = pygame.Surface((TILESIZE/1.5, TILESIZE/1.5))
-        self.image.fill(BLUE)
+        self.image = pygame.transform.scale(self.pimg, (64, 64))
         self.rect = self.image.get_rect()
         self.vel = vec(0,0)
         self.pos = vec(x,y) * TILESIZE
@@ -31,14 +85,32 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
 
             self.vel.x = PLAYER_SPEED
+            self.pimg = self.eimgs[self.index]
+            self.index += 1
+
+            if self.index >= len(self.eimgs):
+
+                self.index = 0
 
         if keys[pygame.K_UP] or keys[pygame.K_w]:
 
             self.vel.y = -PLAYER_SPEED
+            self.pimg = self.nimgs[self.index]
+            self.index += 1
+
+            if self.index >= len(self.nimgs):
+
+                self.index = 0
 
         if keys[pygame.K_DOWN] or keys[pygame.K_s]:
 
             self.vel.y = PLAYER_SPEED
+            self.pimg = self.simgs[self.index]
+            self.index += 1
+
+            if self.index >= len(self.simgs):
+
+                self.index = 0
 
         if self.vel.x != 0 and self.vel.y != 0:
 
@@ -83,6 +155,7 @@ class Player(pygame.sprite.Sprite):
     def update(self):
 
         self.get_keys()
+        self.image = pygame.transform.scale(self.pimg, (64, 64))
 
         self.pos += self.vel * self.game.dt
 

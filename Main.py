@@ -24,11 +24,9 @@ class Game:
 
         walls_img_dir = path.join(game_folder, "images\\Wall")
         npc_img_dir = path.join(game_folder, "images\\Chars\\NPC")
-        player_img_dir = path.join(game_folder, "images\\Player")
 
         self.wall_img = pygame.image.load(path.join(walls_img_dir, WALL_IMG)).convert_alpha()
         self.NPC_img = pygame.image.load(path.join(npc_img_dir, NPC_IMG)).convert_alpha()
-        #self.player_img = pygame.image.load(path.join(player_img_dir, PLAYER_IMG)).convert_alpha()
 
 
         self.map = Map(path.join(game_folder, 'Maps\\World_Map.txt'))
