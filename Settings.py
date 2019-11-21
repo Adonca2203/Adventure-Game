@@ -16,7 +16,7 @@ TITLE = "Adventure Game"
 BGCOLOR = DARKGREY
 
 # screen settings
-TILESIZE = 64
+TILESIZE = 128
 GRIDWIDTH = WIDTH / TILESIZE
 GRIDHEIGHT = HEIGHT / TILESIZE
 
@@ -24,7 +24,9 @@ GRIDHEIGHT = HEIGHT / TILESIZE
 
 WALL_IMG = "wall.png"
 NPC_IMG = "npc.gif"
+BG_IMG = "grass.png"
 
 # player settings
-PLAYER_SPEED = 250
+PLAYER_SPEED = 350
 PLAYER_IMG = "s_walk_0.png"
+ANIM_FRAMES = 60

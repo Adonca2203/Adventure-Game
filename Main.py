@@ -24,9 +24,11 @@ class Game:
 
         walls_img_dir = path.join(game_folder, "images\\Wall")
         npc_img_dir = path.join(game_folder, "images\\Chars\\NPC")
+        bg_img_dir = path.join(game_folder, "images\\BG")
 
         self.wall_img = pygame.image.load(path.join(walls_img_dir, WALL_IMG)).convert_alpha()
         self.NPC_img = pygame.image.load(path.join(npc_img_dir, NPC_IMG)).convert_alpha()
+        self.bg_img = pygame.image.load(path.join(bg_img_dir, BG_IMG)).convert_alpha()
 
 
         self.map = Map(path.join(game_folder, 'Maps\\World_Map.txt'))
@@ -53,6 +55,10 @@ class Game:
                 if tile == 'P':
 
                     self.player = Player(self, col, row)
+
+                if tile =='.':
+
+                    Wall(self, col, row, 0)
 
         self.camera = Camera(self.map.width, self.map.height)
 
