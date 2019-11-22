@@ -1,6 +1,7 @@
 import pygame
 from Settings import *
 from os import path
+from Tilemap import collide_hit_rect
 
 vec = pygame.math.Vector2
 
@@ -29,6 +30,8 @@ class Player(pygame.sprite.Sprite):
         self.game = game
         self.image = pygame.transform.scale(self.pimg, (128, 128))
         self.rect = self.image.get_rect()
+        self.hit_rect = PLAYER_HIT_RECT
+        self.hit_rect.center = self.rect.center
         self.vel = vec(0,0)
         self.pos = vec(x,y) * TILESIZE
 
@@ -122,37 +125,32 @@ class Player(pygame.sprite.Sprite):
 
         if dir == 'x':
 
-            hits = pygame.sprite.spritecollide(self, self.game.solid, False)
+            hits = pygame.sprite.spritecollide(self, self.game.solid, False, collide_hit_rect)
             
             if hits:
-
                 if self.vel.x > 0:
-
-                    self.pos.x = hits[0].rect.left - self.rect.width
+                    self.pos.x = hits[0].rect.left - self.hit_rect.width / 2.0
 
                 if self.vel.x < 0:
-
-                    self.pos.x = hits[0].rect.right
+                    self.pos.x = hits[0].rect.right + self.hit_rect.width / 2.0
 
                 self.vel.x = 0
-                self.rect.x = self.pos.x
+                self.hit_rect.centerx = self.pos.x
 
         if dir == 'y':
 
-            hits = pygame.sprite.spritecollide(self, self.game.solid, False)
+            hits = pygame.sprite.spritecollide(self, self.game.solid, False, collide_hit_rect)
 
             if hits:
-
                 if self.vel.y > 0:
-
-                    self.pos.y = hits[0].rect.top - self.rect.height
+                    self.pos.y = hits[0].rect.top - self.hit_rect.height / 2.0
 
                 if self.vel.y < 0:
-
-                    self.pos.y = hits[0].rect.bottom
+                    self.pos.y = hits[0].rect.bottom + self.hit_rect.height / 2.0
 
                 self.vel.y = 0
-                self.rect.y = self.pos.y
+                self.hit_rect.centery = self.pos.y
+
 
     def load_anims(self):
 
@@ -160,7 +158,7 @@ class Player(pygame.sprite.Sprite):
 
         i = 0
 
-        for i in range(ANIM_FRAMES):
+        for i in range(ANIM_FRAMES - 1):
  
             self.eimgs.append(pygame.image.load(path.join(player_img_dir, 'E_Walk\\e_walk_' + str(i) + '.png')).convert_alpha())
         
@@ -179,19 +177,30 @@ class Player(pygame.sprite.Sprite):
 
         self.pos += self.vel * self.game.dt
 
-        self.rect.x = self.pos.x
+        self.hit_rect.centerx = self.pos.x
         self.collides_with_solid('x')
-        self.rect.y = self.pos.y
+        self.hit_rect.centery = self.pos.y
         self.collides_with_solid('y')
+        self.rect.center = self.hit_rect.center
 
 class Wall(pygame.sprite.Sprite):
 
-    def __init__(self, game, x, y, solid = 1):
-        self.groups = game.all_sprites, game.walls
+    def __init__(self, game, x, y):
+        self.groups = game.all_sprites, game.walls, game.solid
 
-        if solid:
+        pygame.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = pygame.transform.scale(game.wall_img, (128,128))
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * TILESIZE
+        self.rect.y = y * TILESIZE
 
-            self.groups = game.solid
+class BG(pygame.sprite.Sprite):
+
+    def __init__(self, game, x, y):
+        self.groups = game.all_sprites, game.bg
 
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.game = game

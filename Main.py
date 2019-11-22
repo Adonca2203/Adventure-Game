@@ -39,10 +39,15 @@ class Game:
         self.walls = pygame.sprite.Group()
         self.solid = pygame.sprite.Group()
         self.npc = pygame.sprite.Group()
+        self.bg = pygame.sprite.Group()
         
         for row, tiles in enumerate(self.map.data):
 
             for col, tile in enumerate(tiles):
+
+                if tile =='.':
+
+                    BG(self, col, row, 0)
 
                 if tile == '1':
 
@@ -55,10 +60,6 @@ class Game:
                 if tile == 'P':
 
                     self.player = Player(self, col, row)
-
-                if tile =='.':
-
-                    Wall(self, col, row, 0)
 
         self.camera = Camera(self.map.width, self.map.height)
 

@@ -1,3 +1,5 @@
+import pygame
+
 # define some colors (R, G, B)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -30,3 +32,4 @@ BG_IMG = "grass.png"
 PLAYER_SPEED = 350
 PLAYER_IMG = "s_walk_0.png"
 ANIM_FRAMES = 60
+PLAYER_HIT_RECT = pygame.Rect(0, 0, 35, 35)
