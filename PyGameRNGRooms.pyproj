@@ -345,10 +345,13 @@
     <Content Include="images\Chars\Player\S_Walk\s_walk_7.png" />
     <Content Include="images\Chars\Player\S_Walk\s_walk_8.png" />
     <Content Include="images\Chars\Player\S_Walk\s_walk_9.png" />
+    <Content Include="images\Map_Images\Kenney.tsx" />
+    <Content Include="images\Map_Images\tilesheet_complete.png" />
     <Content Include="images\Wall\wall.png" />
     <Content Include="Maps\map.txt">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Maps\testing.tmx" />
     <Content Include="Maps\World_Map.txt">
       <SubType>Code</SubType>
     </Content>
@@ -365,6 +368,7 @@
     <Folder Include="images\Chars\Player\N_Walk\" />
     <Folder Include="images\Chars\Player\S_Walk\" />
     <Folder Include="images\BG\" />
+    <Folder Include="images\Map_Images\" />
     <Folder Include="images\Wall\" />
     <Folder Include="Maps\" />
   </ItemGroup>
