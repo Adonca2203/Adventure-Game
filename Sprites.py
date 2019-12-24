@@ -12,6 +12,7 @@ class Player(pygame.sprite.Sprite):
         self.groups = game.all_sprites
 
         self.game_folder = path.dirname(__file__)
+        self.facing = "DOWN"
 
         self.simgs = []
         self.eimgs = []
@@ -33,7 +34,7 @@ class Player(pygame.sprite.Sprite):
         self.hit_rect = PLAYER_HIT_RECT
         self.hit_rect.center = self.rect.center
         self.vel = vec(0,0)
-        self.pos = vec(x,y) * TILESIZE
+        self.pos = vec(x,y)
 
     def get_keys(self):
 
@@ -42,6 +43,8 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+
+            self.facing = "LEFT"
 
             self.vel.x = -PLAYER_SPEED
             self.pimg = pygame.transform.flip(self.eimgs[self.index], 1, 0)
@@ -53,6 +56,8 @@ class Player(pygame.sprite.Sprite):
 
         if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
 
+            self.facing = "RIGHT"
+
             self.vel.x = PLAYER_SPEED
             self.pimg = self.eimgs[self.index]
             self.index += 1
@@ -62,6 +67,8 @@ class Player(pygame.sprite.Sprite):
                 self.index = 0
 
         if keys[pygame.K_UP] or keys[pygame.K_w]:
+
+            self.facing = "UP"
 
             self.vel.y = -PLAYER_SPEED
             self.pimg = self.nimgs[self.index]
@@ -90,6 +97,8 @@ class Player(pygame.sprite.Sprite):
                 self.index = 0
 
         if keys[pygame.K_DOWN] or keys[pygame.K_s]:
+
+            self.facing = "DOWN"
 
             self.vel.y = PLAYER_SPEED
             self.pimg = self.simgs[self.index]
@@ -120,6 +129,10 @@ class Player(pygame.sprite.Sprite):
         if self.vel.x != 0 and self.vel.y != 0:
 
             self.vel *= 0.7071
+
+        if keys[pygame.K_e]:
+
+            self.game.interact(self.facing, self.hit_rect.centerx, self.hit_rect.centery)
             
     def collides_with_solid(self, dir):
 
@@ -151,7 +164,6 @@ class Player(pygame.sprite.Sprite):
                 self.vel.y = 0
                 self.hit_rect.centery = self.pos.y
 
-
     def load_anims(self):
 
         player_img_dir = path.join(self.game_folder, "images\\Chars\\Player")
@@ -170,6 +182,7 @@ class Player(pygame.sprite.Sprite):
 
             self.simgs.append(pygame.image.load(path.join(player_img_dir, 'S_Walk\\s_walk_' + str(i) + '.png')).convert_alpha())
 
+
     def update(self):
 
         self.get_keys()
@@ -182,6 +195,19 @@ class Player(pygame.sprite.Sprite):
         self.hit_rect.centery = self.pos.y
         self.collides_with_solid('y')
         self.rect.center = self.hit_rect.center
+
+class Obstacle(pygame.sprite.Sprite):
+
+    def __init__(self, game, x, y, w, h):
+        self.groups = game.walls, game.solid
+
+        pygame.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.rect = pygame.Rect(x,y,w,h)
+        self.x = x
+        self.y = y
+        self.rect.x = x
+        self.rect.y = y
 
 class Wall(pygame.sprite.Sprite):
 
@@ -208,8 +234,8 @@ class BG(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
-        self.rect.x = x * TILESIZE
-        self.rect.y = y * TILESIZE
+        self.rect.x = x
+        self.rect.y = y
 
 class NPC(pygame.sprite.Sprite):
 
@@ -217,8 +243,13 @@ class NPC(pygame.sprite.Sprite):
 
         self.groups = game.all_sprites, game.npc, game.solid
         pygame.sprite.Sprite.__init__(self, self.groups)
+
+        game_folder = path.dirname(__file__)
+        npc_img_dir = path.join(game_folder, "images\\Chars\\NPC")
+        NPC_img = pygame.image.load(path.join(npc_img_dir, NPC_IMG)).convert_alpha()
+        
         self.game = game
-        self. image = pygame.transform.scale(game.NPC_img, (128,128))
+        self. image = pygame.transform.scale(NPC_img, (128,128))
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y

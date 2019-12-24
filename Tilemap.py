@@ -25,6 +25,7 @@ class Map:
 
 
 class TiledMap:
+
     def __init__(self, filename):
         
         tm = pytmx.load_pygame(filename, pixelalpha=True)

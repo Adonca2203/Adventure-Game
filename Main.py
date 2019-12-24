@@ -27,7 +27,7 @@ class Game:
         bg_img_dir = path.join(game_folder, "images\\BG")
         map_folder = path.join(game_folder, 'Maps')
         
-        self.map = TiledMap(path.join(map_folder, 'testing.tmx'))
+        self.map = TiledMap(path.join(map_folder, 'dungeon.tmx'))
         self.map_img = self.map.make_map()
         self.map_rect = self.map_img.get_rect()
 
@@ -64,7 +64,16 @@ class Game:
 
         #            self.player = Player(self, col, row)
 
-        self.player = Player(self, 5,5)
+        for tile_object in self.map.tmxdata.objects:
+
+            if tile_object.name == 'Player':
+
+                self.player = Player(self, tile_object.x, tile_object.y)
+
+            if tile_object.type == 'Solid':
+
+                Obstacle(self, tile_object.x, tile_object.y, tile_object.width, tile_object.height)
+
         self.camera = Camera(self.map.width, self.map.height)
 
     def run(self):
@@ -125,6 +134,77 @@ class Game:
                 if event.key == pygame.K_ESCAPE:
                     
                     self.quit()
+
+    def interact(self, facing, player_x, player_y):
+
+        for tile_object in self.map.tmxdata.objects:
+       
+            if tile_object.name == "NPC":
+
+                if self.can_interact(player_x, player_y, tile_object.x, tile_object.y):
+
+                    will_face = self.npc_face(facing)
+
+                    print("close enough to interact, NPC will face " + will_face)
+
+    def npc_face(self, p_facing):
+
+        will_face = ""
+
+        if p_facing == "LEFT":
+
+            will_face = "RIGHT"
+
+        elif p_facing== "RIGHT":
+
+            will_face = "LEFT"
+
+        elif p_facing == "DOWN":
+
+            will_face = "UP"
+
+        elif p_facing == "UP":
+
+            will_face = "DOWN"
+
+        return will_face
+
+    def can_interact(self, p_x, p_y, object_x, object_y):
+
+        direction_x = False
+        direction_y = False
+
+        if p_x > object_x - TILESIZE and p_x < object_x:
+            
+            direction_x = True
+
+        elif p_x < object_x + TILESIZE and p_x > object_x:
+           
+            direction_x = True
+
+        else:
+
+            direction_x = False
+
+        if p_y > object_y - TILESIZE and p_y < object_y:
+            
+            direction_y = True
+
+        elif p_y < object_y + TILESIZE and p_y > object_y:
+           
+            direction_y = True
+
+        else:
+
+            direction_y = False
+
+        if direction_x and direction_y:
+
+            return True
+
+        else:
+
+            return False
 
     def show_start_screen(self):
 
