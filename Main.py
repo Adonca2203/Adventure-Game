@@ -42,7 +42,7 @@ class Game:
         self.walls = pygame.sprite.Group()
         self.solid = pygame.sprite.Group()
         self.npc = pygame.sprite.Group()
-        self.bg = pygame.sprite.Group()
+        self.interactive = pygame.sprite.Group()
         
         #for row, tiles in enumerate(self.map.data):
 
@@ -70,9 +70,17 @@ class Game:
 
                 self.player = Player(self, tile_object.x, tile_object.y)
 
+            if tile_object.name == 'NPC':
+
+                NPC(self, tile_object.x, tile_object.y)
+
             if tile_object.type == 'Solid':
 
                 Obstacle(self, tile_object.x, tile_object.y, tile_object.width, tile_object.height)
+
+            if tile_object.name == 'Interactive':
+
+                Interaction_Box(self, tile_object.x, tile_object.y, tile_object.width, tile_object.height)
 
         self.camera = Camera(self.map.width, self.map.height)
 
@@ -135,13 +143,13 @@ class Game:
                     
                     self.quit()
 
-    def interact(self, facing, player_x, player_y):
+    def interact(self, facing):
 
         for tile_object in self.map.tmxdata.objects:
        
             if tile_object.name == "NPC":
 
-                if self.can_interact(player_x, player_y, tile_object.x, tile_object.y):
+                if self.player.can_interact(self):
 
                     will_face = self.npc_face(facing)
 
@@ -168,43 +176,6 @@ class Game:
             will_face = "DOWN"
 
         return will_face
-
-    def can_interact(self, p_x, p_y, object_x, object_y):
-
-        direction_x = False
-        direction_y = False
-
-        if p_x > object_x - TILESIZE and p_x < object_x:
-            
-            direction_x = True
-
-        elif p_x < object_x + TILESIZE and p_x > object_x:
-           
-            direction_x = True
-
-        else:
-
-            direction_x = False
-
-        if p_y > object_y - TILESIZE and p_y < object_y:
-            
-            direction_y = True
-
-        elif p_y < object_y + TILESIZE and p_y > object_y:
-           
-            direction_y = True
-
-        else:
-
-            direction_y = False
-
-        if direction_x and direction_y:
-
-            return True
-
-        else:
-
-            return False
 
     def show_start_screen(self):
 

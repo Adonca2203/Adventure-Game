@@ -132,7 +132,7 @@ class Player(pygame.sprite.Sprite):
 
         if keys[pygame.K_e]:
 
-            self.game.interact(self.facing, self.hit_rect.centerx, self.hit_rect.centery)
+            self.game.interact(self.facing)
             
     def collides_with_solid(self, dir):
 
@@ -182,6 +182,13 @@ class Player(pygame.sprite.Sprite):
 
             self.simgs.append(pygame.image.load(path.join(player_img_dir, 'S_Walk\\s_walk_' + str(i) + '.png')).convert_alpha())
 
+    def can_interact(self, game):
+
+        within_range = pygame.sprite.spritecollide(self, self.game.interactive, False, collide_hit_rect)
+
+        if within_range:
+
+            return True
 
     def update(self):
 
@@ -237,6 +244,20 @@ class BG(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+class Interaction_Box(pygame.sprite.Sprite):
+
+    def __init__(self, game, x, y, w, h):
+
+        self.groups = game.interactive
+
+        pygame.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.rect = pygame.Rect(x,y,w,h)
+        self.x = x
+        self.y = y
+        self.rect.x = x
+        self.rect.y = y
+
 class NPC(pygame.sprite.Sprite):
 
     def __init__(self, game, x, y):
@@ -246,12 +267,12 @@ class NPC(pygame.sprite.Sprite):
 
         game_folder = path.dirname(__file__)
         npc_img_dir = path.join(game_folder, "images\\Chars\\NPC")
-        NPC_img = pygame.image.load(path.join(npc_img_dir, NPC_IMG)).convert_alpha()
+        NPC_img = pygame.image.load(path.join(npc_img_dir, 'npc.gif')).convert_alpha()
         
         self.game = game
         self. image = pygame.transform.scale(NPC_img, (128,128))
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
-        self.rect.x = x * TILESIZE
-        self.rect.y = y * TILESIZE
+        self.rect.x = x
+        self.rect.y = y
