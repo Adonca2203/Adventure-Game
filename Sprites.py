@@ -210,7 +210,7 @@ class Obstacle(pygame.sprite.Sprite):
 
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.rect = pygame.Rect(x,y,w,h)
+        self.rect = pygame.Rect(x, y, w, h)
         self.x = x
         self.y = y
         self.rect.x = x

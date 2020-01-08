@@ -27,7 +27,7 @@ class Game:
         bg_img_dir = path.join(game_folder, "images\\BG")
         map_folder = path.join(game_folder, 'Maps')
         
-        self.map = TiledMap(path.join(map_folder, 'dungeon.tmx'))
+        self.map = TiledMap(path.join(map_folder, 'overworld.tmx'))
         self.map_img = self.map.make_map()
         self.map_rect = self.map_img.get_rect()
 
@@ -68,19 +68,19 @@ class Game:
 
             if tile_object.name == 'Player':
 
-                self.player = Player(self, tile_object.x, tile_object.y)
+                self.player = Player(self, tile_object.x * SCALESIZE, tile_object.y * SCALESIZE)
 
             if tile_object.name == 'NPC':
 
-                NPC(self, tile_object.x, tile_object.y)
+                NPC(self, tile_object.x * SCALESIZE, tile_object.y * SCALESIZE)
 
-            if tile_object.type == 'Solid':
+            if tile_object.name == 'Wall':
 
-                Obstacle(self, tile_object.x, tile_object.y, tile_object.width, tile_object.height)
+                Obstacle(self, tile_object.x * SCALESIZE, tile_object.y * SCALESIZE, tile_object.width* SCALESIZE, tile_object.height * SCALESIZE)
 
             if tile_object.name == 'Interactive':
 
-                Interaction_Box(self, tile_object.x, tile_object.y, tile_object.width, tile_object.height)
+                Interaction_Box(self, tile_object.x * SCALESIZE, tile_object.y * SCALESIZE, tile_object.width, tile_object.height)
 
         self.camera = Camera(self.map.width, self.map.height)
 
