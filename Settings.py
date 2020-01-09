@@ -30,7 +30,7 @@ NPC_IMG = "npc.gif"
 BG_IMG = "grass.png"
 
 # player settings
-PLAYER_SPEED = 350
+PLAYER_SPEED = 700
 PLAYER_IMG = "s_walk_0.png"
 ANIM_FRAMES = 60
 PLAYER_HIT_RECT = pygame.Rect(0, 0, 35, 35)

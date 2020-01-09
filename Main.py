@@ -27,7 +27,7 @@ class Game:
         bg_img_dir = path.join(game_folder, "images\\BG")
         map_folder = path.join(game_folder, 'Maps')
         
-        self.map = TiledMap(path.join(map_folder, 'overworld.tmx'))
+        self.map = TiledMap(path.join(map_folder, 'dungeon.tmx'))
         self.map_img = self.map.make_map()
         self.map_rect = self.map_img.get_rect()
 
@@ -43,6 +43,7 @@ class Game:
         self.solid = pygame.sprite.Group()
         self.npc = pygame.sprite.Group()
         self.interactive = pygame.sprite.Group()
+        self.text = pygame.sprite.Group()
         
         #for row, tiles in enumerate(self.map.data):
 
@@ -80,7 +81,7 @@ class Game:
 
             if tile_object.name == 'Interactive':
 
-                Interaction_Box(self, tile_object.x * SCALESIZE, tile_object.y * SCALESIZE, tile_object.width, tile_object.height)
+                Interaction_Box(self, tile_object.x * SCALESIZE, tile_object.y * SCALESIZE, tile_object.width * SCALESIZE, tile_object.height * SCALESIZE, tile_object.type)
 
         self.camera = Camera(self.map.width, self.map.height)
 
@@ -117,6 +118,7 @@ class Game:
 
     def draw(self):
 
+        pygame.display.set_caption("{:.2f}".format(self.clock.get_fps()))
         #self.screen.fill(BGCOLOR)
 
         self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
@@ -145,15 +147,21 @@ class Game:
 
     def interact(self, facing):
 
-        for tile_object in self.map.tmxdata.objects:
-       
-            if tile_object.name == "NPC":
+        if self.player.can_interact(self):
 
-                if self.player.can_interact(self):
+            name = self.player.can_interact(self)[0].name
 
-                    will_face = self.npc_face(facing)
+            will_face = self.npc_face(facing)
 
-                    print("close enough to interact, NPC will face " + will_face)
+            print("close enough to interact, NPC will face " + will_face)
+            print(name)
+
+            text_box = Text_Box(self, self.player.pos.x, self.player.pos.y)
+
+        else:
+
+            pass
+
 
     def npc_face(self, p_facing):
 

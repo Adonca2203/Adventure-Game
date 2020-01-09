@@ -351,6 +351,7 @@
     <Content Include="images\Map_Images\Overword.tsx" />
     <Content Include="images\Map_Images\overworld_tileset_grass.png" />
     <Content Include="images\Map_Images\tilesheet_complete.png" />
+    <Content Include="images\Text_Box\npc_dialog_instruction.png" />
     <Content Include="images\Wall\wall.png" />
     <Content Include="Maps\dungeon.tmx" />
     <Content Include="Maps\map.txt">
@@ -375,6 +376,7 @@
     <Folder Include="images\Chars\Player\S_Walk\" />
     <Folder Include="images\BG\" />
     <Folder Include="images\Map_Images\" />
+    <Folder Include="images\Text_Box\" />
     <Folder Include="images\Wall\" />
     <Folder Include="Maps\" />
   </ItemGroup>

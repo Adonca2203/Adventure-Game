@@ -188,7 +188,11 @@ class Player(pygame.sprite.Sprite):
 
         if within_range:
 
-            return True
+            return within_range
+
+        else:
+
+            return False
 
     def update(self):
 
@@ -246,12 +250,13 @@ class BG(pygame.sprite.Sprite):
 
 class Interaction_Box(pygame.sprite.Sprite):
 
-    def __init__(self, game, x, y, w, h):
+    def __init__(self, game, x, y, w, h, name):
 
         self.groups = game.interactive
 
         pygame.sprite.Sprite.__init__(self, self.groups)
         self.game = game
+        self.name = name
         self.rect = pygame.Rect(x,y,w,h)
         self.x = x
         self.y = y
@@ -270,9 +275,53 @@ class NPC(pygame.sprite.Sprite):
         NPC_img = pygame.image.load(path.join(npc_img_dir, 'npc.gif')).convert_alpha()
         
         self.game = game
-        self. image = pygame.transform.scale(NPC_img, (128,128))
+        self.image = pygame.transform.scale(NPC_img, (128,128))
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
         self.rect.x = x
         self.rect.y = y
+
+class Text_Box(pygame.sprite.Sprite):
+
+    def __init__(self, game, x, y):
+
+        self.groups = game.all_sprites, game.text
+
+        pygame.sprite.Sprite.__init__(self, self.groups)
+
+        game_folder = path.dirname(__file__)
+        box = path.join(game_folder, "images\\Text_Box")
+
+        box_img = pygame.image.load(path.join(box, 'npc_dialog_instruction.png')).convert_alpha()
+
+        self.game = game
+        self.image = box_img
+        self.rect = self.image.get_rect()
+
+        if x - (8 * TILESIZE) <= 0:
+
+            x = 0
+
+        else:
+
+            x = x - (8 * TILESIZE)
+
+        if y - TILESIZE <= HEIGHT:
+
+            y = HEIGHT
+
+        else:
+
+            y = y - TILESIZE
+
+        self.x = x
+        self.y = y
+        self.width = self.rect.width
+        self.height = self.rect.height
+        self.rect.x = x
+        self.rect.y = y
+
+    def update(self):
+
+        pass
